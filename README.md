@@ -42,6 +42,6 @@ Follow these steps to get a local copy of the project running on your machine.
 
 3. Start the Development Server:
 
-`npm start`
+`npm run dev`
 
 The application should now be running and accessible at the shown url.
