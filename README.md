@@ -36,8 +36,6 @@ Follow these steps to get a local copy of the project running on your machine.
 
 `git clone https://github.com/haz1sadik/Peskon-Induk-Frontend.git`
 
-`cd peskon-upm-2025-website`
-
 2. Install Dependencies:
 
 `npm install`
