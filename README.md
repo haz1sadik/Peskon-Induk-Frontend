@@ -1,16 +1,49 @@
-# React + Vite
+# 🚀 PESKON UPM 2025
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 🌟 Overview
 
-Currently, two official plugins are available:
+Welcome to the official repository for the PESKON (Pesta Konvokesyen) UPM 2025 website. 
+This project serves a purpose:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Announcement Portal: To provide the public and UPM community with the latest news, schedules, and important information regarding the 2025 Convocation Festival.Digital 
 
-## React Compiler
+This application is built using ReactJS for a fast, responsive, and modern user experience.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### ✨ Features
+Dynamic Announcements: Real-time display of the latest updates and breaking news.
 
-## Expanding the ESLint configuration
+Responsive Design: Optimized for viewing on desktop, tablet, and mobile devices.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🛠️ Technology Stack
+
+| Category | Technology |
+| :-----: | :-----: |
+| Front-end Framework | ReactJS using Vite |
+| Language | Javascript ES6+ |
+| Styling | TailwindCSS |
+| Routing | React Router Dom |
+| Data Fetching | Axios |
+
+### 📦 Installation & Setup
+Follow these steps to get a local copy of the project running on your machine.
+
+**Prerequisites**
+1. Node.js (LTS version recommended)
+.
+
+**Steps**
+1. Clone the Repository:
+
+`git clone [Your Repository URL Here]`
+
+`cd peskon-upm-2025-website`
+
+2. Install Dependencies:
+
+`npm install`
+
+3. Start the Development Server:
+
+`npm start`
+
+The application should now be running and accessible at the shown url.
