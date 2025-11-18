@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+:root {
+  width: 100vw;
+  min-width: 100vw;
+}
+
+html, body {
+  width: 100%;
+  min-width: 100vw; /* Prevent shrinking below viewport */
+  margin: 0;
+  padding: 0;
+}
