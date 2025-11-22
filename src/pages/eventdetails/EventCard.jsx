@@ -4,6 +4,7 @@ import rumahSeram from '../../assets/rumahSeram.png'
 import arrow from '../../assets/arrow.svg'
 import DOMPurify from 'dompurify';
 import { useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 const EventCard = () => {
@@ -102,7 +103,10 @@ const EventCard = () => {
       <div className="w-full flex justify-center px-4 py-10 ">
         <div className="w-fit  mx-auto  ">
           <div className="flex gap-4 my-4">
-            <p className="ml-7 text-gray-500 sm:text-[1rem] text-[0.8rem]">Home </p>
+            <NavLink to="/">
+              <p className="ml-7 text-gray-500 sm:text-[1rem] text-[0.8rem]">Home </p>
+            </NavLink>
+            
             <img src={arrow} alt="arrow" className="sm:h-4 h-3 sm:mt-1 mt-[0.3rem]" />
             <p className="sm:text-[1rem] text-[0.8rem]">{events.title}</p>
           </div>
