@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { createHashRouter, RouterProvider } from "react-router-dom";
+import Homepage from './pages/homepage/index.jsx';
+import EventDetails from './pages/eventdetails/index.jsx';
 
 const router = createHashRouter([
   {
@@ -11,7 +13,11 @@ const router = createHashRouter([
     children: [
       {
         path: "/",
-        element: <h1>HEHE</h1>,
+        element: <Homepage />,
+      },
+      {
+        path: "/eventdetails/:eventId",
+        element: <EventDetails />,
       },
     ],
     //errorElement: <R404 />
