@@ -8,8 +8,8 @@ const Navbar = () => {
 
   const menuItems = [
     { label: "Home", path: "home" },
-    { label: "Entitlements", path: "runKit" },
-    { label: "Details", path: "details" },
+    { label: "Events", path: "runKit" },
+    { label: "About", path: "details" },
   ];
 
   // 🧠 Close dropdown automatically when route changes (e.g. /register)
