@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import Homepage from './pages/homepage/index.jsx';
 import EventDetails from './pages/eventdetails/index.jsx';
+import About from './pages/about/index.jsx';
 
 const router = createHashRouter([
   {
@@ -18,6 +19,10 @@ const router = createHashRouter([
       {
         path: "/eventdetails/:eventId",
         element: <EventDetails />,
+      },
+      {
+        path: "/about",
+        element: <About/>,
       },
     ],
     //errorElement: <R404 />
