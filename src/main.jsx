@@ -4,6 +4,8 @@ import './index.css'
 import App from './App.jsx'
 import AdminUI from './AdminUI.jsx'
 import { createHashRouter, RouterProvider } from "react-router-dom";
+import Homepage from './pages/homepage/index.jsx';
+import EventDetails from './pages/eventdetails/index.jsx';
 import CreateEvent from './pages/createEventPage/CreateEvent.jsx'
 import EditEvent from './pages/EditEventPage/EditEvent.jsx'
 import AdminLogin from './pages/AdminDashboard/AdminLogin.jsx'
@@ -15,7 +17,11 @@ const router = createHashRouter([
     children: [
       {
         path: "/",
-        element: <h1>HEHE</h1>,
+        element: <Homepage />,
+      },
+      {
+        path: "/eventdetails/:eventId",
+        element: <EventDetails />,
       },
     ],
     //errorElement: <R404 />

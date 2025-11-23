@@ -1,0 +1,195 @@
+import React, { useEffect, useState } from 'react'
+import axios from '../../axios'
+import rumahSeram from '../../assets/rumahSeram.png'
+import arrow from '../../assets/arrow.svg'
+import DOMPurify from 'dompurify';
+import { useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+
+
+const EventCard = () => {
+
+  const [events, setEvents] = useState({})
+  const {eventId} = useParams();
+  
+
+  useEffect(() => {
+    getEvents();
+  }, []);
+
+    useEffect(() => {
+    if (!eventId) return; // don't fetch when undefined
+    // optionally clear previous details while loading
+    setEvents({});
+    getEvents();
+  }, [eventId]);
+
+  async function getEvents() {
+    if (!eventId) return;
+    try {
+      const response = await axios.get(`/api/events/${eventId}`)
+      console.log(response.data)
+      setEvents(response.data)
+    } catch (error) {
+      console.error('Error fetching events:', error)
+
+    }
+  }
+
+  const clean = DOMPurify.sanitize(events.description || '');
+
+  // Helper: format one date as "28 Nov 25"
+  function formatSingleDate(dateString) {
+    const d = new Date(dateString)
+    if (isNaN(d.getTime())) return ''
+
+    const day = d.getDate()
+    const month = d.toLocaleString('en-US', { month: 'short' })
+    const year = d.getFullYear().toString().slice(-2)
+    return `${day} ${month} ${year}`
+  }
+
+  // Final display:
+  // - Single day: "28 Nov 25"
+  // - Multi day : "28 Nov - 1 Dec 25"
+  function formatDate(date_time, end_date_time) {
+    const start = new Date(date_time)
+    const end = end_date_time ? new Date(end_date_time) : null
+
+    // If start invalid → nothing
+    if (isNaN(start.getTime())) return ''
+
+    // If no end date or invalid end → treat as single day
+    if (!end || isNaN(end.getTime())) {
+      return formatSingleDate(date_time)
+    }
+
+    // Same calendar day → single day
+    if (start.toDateString() === end.toDateString()) {
+      return formatSingleDate(date_time)
+    }
+
+    // Multi-day format: "28 Nov - 1 Dec 25"
+    const sDay = start.getDate()
+    const sMonth = start.toLocaleString('en-US', { month: 'short' })
+    const eDay = end.getDate()
+    const eMonth = end.toLocaleString('en-US', { month: 'short' })
+    const eYear = end.getFullYear().toString().slice(-2)
+
+    return `${sDay} ${sMonth} - ${eDay} ${eMonth} ${eYear}`
+  }
+
+  function extractTime(dateString) {
+    if (!dateString) return '';
+
+    const d = new Date(dateString);
+    if (isNaN(d.getTime())) return '';
+
+    const hours = d.getHours();
+    const minutes = d.getMinutes();
+
+    return (hours === 0 && minutes === 0)
+      ? ''
+      : d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+
+  const startTime = extractTime(events.date_time);
+  const endTime = extractTime(events.end_date_time);
+
+
+  return (
+    <>
+      {/* Outer container – center everything */}
+      <div className="w-full flex justify-center px-4 py-10 ">
+        <div className="w-fit  mx-auto  ">
+          <div className="flex gap-4 my-4">
+            <NavLink to="/">
+              <p className="ml-7 text-gray-500 sm:text-[1rem] text-[0.8rem]">Home </p>
+            </NavLink>
+            
+            <img src={arrow} alt="arrow" className="sm:h-4 h-3 sm:mt-1 mt-[0.3rem]" />
+            <p className="sm:text-[1rem] text-[0.8rem]">{events.title}</p>
+          </div>
+
+          {/* Flex layout: column on mobile, side-by-side on md+ */}
+          <div className="flex flex-col md:flex-row items-start gap-5 mx-6">
+
+            {/* Image column – fixed width on md+ so it won't shrink */}
+            <div className="w-full md:w-[360px] lg:w-[400px] flex-none">
+              <img
+                src={events.poster_url || rumahSeram}
+                alt="rumahSeram"
+                className="
+                  w-full
+                  h-auto
+                  object-cover
+                  rounded-2xl
+                  shadow-[3px_4px_20px_0_rgba(0,0,0,0.10)]
+                "
+              />
+            </div>
+
+            {/* Details column – takes remaining width, grows vertically */}
+            <div className="flex-1">
+              <div
+                className="
+                  shadow-[3px_4px_20px_0_rgba(0,0,0,0.10)]
+                  rounded-2xl
+                  p-8
+                  lg:max-w-[30rem]
+                  w-full
+                "
+              >
+
+                <div className='flex flex-col lg:gap-6 gap-3 w-full lg:my-2 my-1'>
+                  <div>
+                    <p className='whitespace-pre-line lg:text-[1.5rem] font-bold text-[0.8rem]'>{events.title}</p>
+                    <hr class="h-px mt-5 bg-neutral-quaternary text-gray-300"></hr>
+                  </div>
+
+                  <div>
+                    <h1 className='text-gray-500 lg:text-[0.9rem] text-[0.8rem] mb-1'>Date</h1>
+                    <p className='whitespace-pre-line lg:text-[1rem] text-[0.8rem]'>{formatDate(events.date_time, events.end_date_time)}</p>
+                  </div>
+
+                  {startTime || endTime ? (
+                    <div>
+                      <h1 className="text-gray-500 lg:text-[0.9rem] text-[0.8rem] mb-1">
+                        Time
+                      </h1>
+
+                      <p className="lg:text-[1rem] text-[0.8rem]">
+                        {
+                          startTime
+                            ? endTime
+                              ? `${startTime} – ${endTime}`    // both exist
+                              : startTime                      // only start
+                            : endTime                          // only end
+                        }
+                      </p>
+                    </div>
+                  ) : null}
+
+                  <div>
+                    <h1 className='text-gray-500 lg:text-[0.9rem] text-[0.8rem] mb-1'>Location</h1>
+                    <p className='whitespace-pre-line lg:text-[1rem] text-[0.8rem]'>{events.location}</p>
+                  </div>
+
+                  <div>
+                    <h1 className='text-gray-500 lg:text-[0.9rem] text-[0.8rem] mb-1'>Description</h1>
+                    <p className='whitespace-pre-line lg:text-[1rem] text-[0.8rem]' dangerouslySetInnerHTML={{ __html: clean }} />
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default EventCard

@@ -8,7 +8,7 @@ const Navbar = () => {
 
   const menuItems = [
     { label: "Home", path: "home" },
-    { label: "Entitlements", path: "runKit" },
+    { label: "Events", path: "runKit" },
     { label: "Details", path: "details" },
   ];
 
