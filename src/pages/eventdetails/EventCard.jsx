@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import axios from '../../axios'
 import rumahSeram from '../../assets/rumahSeram.png'
 import arrow from '../../assets/arrow.svg'
@@ -10,15 +10,30 @@ import { NavLink } from 'react-router-dom';
 const EventCard = () => {
 
   const [events, setEvents] = useState({})
-  const {eventId} = useParams();
-  
+  const { eventId } = useParams();
+  const firstLoadRef = useRef(true);
+
 
   useEffect(() => {
     getEvents();
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     if (!eventId) return; // don't fetch when undefined
+
+    if (firstLoadRef.current) {
+      firstLoadRef.current = false;
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Skip smooth scroll on the very first load, only on param changes
+    if (firstLoadRef.current) {
+      firstLoadRef.current = false;
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     // optionally clear previous details while loading
     setEvents({});
     getEvents();
@@ -45,7 +60,7 @@ const EventCard = () => {
 
     const day = d.getDate()
     const month = d.toLocaleString('en-US', { month: 'short' })
-    const year = d.getFullYear().toString().slice(-2)
+    const year = d.getFullYear()
     return `${day} ${month} ${year}`
   }
 
@@ -74,7 +89,7 @@ const EventCard = () => {
     const sMonth = start.toLocaleString('en-US', { month: 'short' })
     const eDay = end.getDate()
     const eMonth = end.toLocaleString('en-US', { month: 'short' })
-    const eYear = end.getFullYear().toString().slice(-2)
+    const eYear = end.getFullYear()
 
     return `${sDay} ${sMonth} - ${eDay} ${eMonth} ${eYear}`
   }
@@ -106,7 +121,7 @@ const EventCard = () => {
             <NavLink to="/">
               <p className="ml-7 text-gray-500 sm:text-[1rem] text-[0.8rem]">Home </p>
             </NavLink>
-            
+
             <img src={arrow} alt="arrow" className="sm:h-4 h-3 sm:mt-1 mt-[0.3rem]" />
             <p className="sm:text-[1rem] text-[0.8rem]">{events.title}</p>
           </div>

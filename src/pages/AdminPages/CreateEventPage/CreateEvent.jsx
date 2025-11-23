@@ -4,7 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import api from "axios";
 import ImageKit from "imagekit-javascript";
-import PrimaryButton from "../../components/ui/button/PrimaryButton";
+import PrimaryButton from "../../../components/ui/button/PrimaryButton";
 
 const imagekit = new ImageKit({
   publicKey: import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
@@ -333,12 +333,12 @@ export default function CreateEvent() {
           {/* Featured */}
           <div className="flex items-center gap-3 bg-green-50 p-4 rounded-xl border border-green-100">
             <input type="checkbox" name="is_featured" checked={formData.is_featured} onChange={handleChange}
-              className="h-5 w-5 text-[#38ab70] focus:ring-[#38ab70] rounded"
+              className="h-5 w-5 text-peskon-primary focus:ring-peskon-primary rounded"
             />
             <label className="font-medium text-gray-800 text-sm">Mark as Featured Event</label>
           </div>
 
-          <PrimaryButton text={isLoading ? "Submitting..." : "Create Event"} disabled={isLoading} />
+            <PrimaryButton text={isLoading ? "Submitting..." : "Create Event"} disabled={isLoading} />
         </form>
       </div>
     </div>

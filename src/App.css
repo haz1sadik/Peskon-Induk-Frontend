@@ -6,8 +6,9 @@
 
 
 @theme {
-  --color-peskonrun-primary: #38ab70;
-  --color-peskonrun-accent: #d8eee1;
+  --color-peskon-primary: #38ab70;
+  --color-peskon-primary-hover: #2f8a59;
+  --color-peskon-accent: #d8eee1;
   --font-inter: Inter, "sans-serif";
 }
 

@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import api from "axios";
 import ImageKit from "imagekit-javascript";
 import { useParams } from "react-router-dom";
-import PrimaryButton from "../../components/ui/button/PrimaryButton";
+import PrimaryButton from "../../../components/ui/button/PrimaryButton";
 
 const imagekit = new ImageKit({
   publicKey: import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../../axios'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 
 const OtherEvents = () => {
+
+  const navigate = useNavigate();
 
   const [events, setEvents] = useState([])
 
@@ -12,7 +14,7 @@ const OtherEvents = () => {
   }, []);
 
   async function getEvents() {
-    
+
     try {
       const response = await axios.get('/api/events')
       setEvents(response.data)
@@ -29,7 +31,7 @@ const OtherEvents = () => {
 
     const day = d.getDate()
     const month = d.toLocaleString('en-US', { month: 'short' })
-    const year = d.getFullYear().toString().slice(-2)
+    const year = d.getFullYear()
     return `${day} ${month} ${year}`
   }
 
@@ -58,9 +60,9 @@ const OtherEvents = () => {
     const sMonth = start.toLocaleString('en-US', { month: 'short' })
     const eDay = end.getDate()
     const eMonth = end.toLocaleString('en-US', { month: 'short' })
-    const eYear = end.getFullYear().toString().slice(-2)
+    const eYear = end.getFullYear()
 
-    return `${sDay} ${sMonth} - ${eDay} ${eMonth} ${eYear}`
+    return `${sDay} ${sMonth} - ${eDay} ${eMonth}`
   }
 
   // ---------- Sort earliest and take first 3 ----------

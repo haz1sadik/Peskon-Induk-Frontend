@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import TextInputField from '../../components/ui/input/TextInputField.jsx'
-import PrimaryButton from '../../components/ui/button/PrimaryButton.jsx'
+import TextInputField from '../../../components/ui/input/TextInputField.jsx'
+import PrimaryButton from '../../../components/ui/button/PrimaryButton.jsx'
 import api from 'axios'
 import { useNavigate } from 'react-router-dom'
 

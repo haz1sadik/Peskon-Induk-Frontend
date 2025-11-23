@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import PrimaryButton from "../ui/button/PrimaryButton";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +59,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex items-start gap-12">
+        <ul className="hidden md:flex justify-center items-center gap-12">
           {menuItems.map((item) => (
             <li key={item.path}>
               <button
@@ -69,6 +70,7 @@ const Navbar = () => {
               </button>
             </li>
           ))}
+          <PrimaryButton text="Admin Login" onClick={() => navigate('/admin')}/>
           
         </ul>
 
@@ -88,8 +90,8 @@ const Navbar = () => {
 
       {/* ✅ Mobile Dropdown */}
       {isOpen && (
-        <div className="sticky top-18 z-9999 md:hidden bg-white shadow-inner border border-peskonrun-primary/10 rounded-b-2xl">
-          <ul className="flex flex-col px-6 py-6 gap-4">
+        <div className="sticky top-18 z-9999 md:hidden bg-white shadow-inner border border-peskon-primary/10 rounded-b-2xl">
+          <ul className="flex flex-col px-6 py-6 gap-8 items-center">
             {menuItems.map((item) => (
               <li key={item.path}>
                 <button
@@ -100,8 +102,7 @@ const Navbar = () => {
                 </button>
               </li>
             ))}
-
-            
+            <PrimaryButton text="Admin Login" onClick={() => navigate('/admin')}/>      
           </ul>
         </div>
       )}
