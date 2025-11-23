@@ -68,7 +68,7 @@ const Navbar = () => {
                         <li key={item.path}>
                             <button
                                 onClick={() => handleNavigation(item.path)}
-                                className="text-sm font-semibold text-gray-800 hover:text-peskonrun-primary cursor-pointer"
+                                className="text-sm font-semibold text-gray-800 hover:text-peskon-primary cursor-pointer"
                             >
                                 {item.label}
                             </button>
@@ -102,7 +102,7 @@ const Navbar = () => {
                             <li key={item.path}>
                                 <button
                                     onClick={() => handleNavigation(item.path)}
-                                    className="text-sm font-semibold text-gray-800 hover:text-peskonrun-primary"
+                                    className="text-sm font-semibold text-gray-800 hover:text-peskon-primary"
                                 >
                                     {item.label}
                                 </button>

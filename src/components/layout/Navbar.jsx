@@ -8,9 +8,9 @@ const Navbar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { label: "Home", path: "home" },
-    { label: "Events", path: "runKit" },
-    { label: "About", path: "details" },
+    { label: "Home", path: "" },
+    { label: "Events", path: "events" },
+    { label: "About", path: "about" },
   ];
 
   // 🧠 Close dropdown automatically when route changes (e.g. /register)
@@ -33,7 +33,7 @@ const Navbar = () => {
       handleScroll(id);
     } else {
       // Go to home, then scroll after a short delay
-      navigate("/");
+      navigate(`/${id}`);
       setTimeout(() => handleScroll(id), 400);
     }
   };
@@ -63,8 +63,8 @@ const Navbar = () => {
           {menuItems.map((item) => (
             <li key={item.path}>
               <button
-                onClick={() => handleNavigation(item.path)}
-                className="text-sm font-semibold text-gray-800 hover:text-peskonrun-primary cursor-pointer"
+                onClick={() => navigate(`/${item.path}`)}
+                className="text-sm font-semibold text-gray-800 hover:text-peskon-primary cursor-pointer"
               >
                 {item.label}
               </button>
@@ -96,7 +96,7 @@ const Navbar = () => {
               <li key={item.path}>
                 <button
                   onClick={() => handleNavigation(item.path)}
-                  className="text-sm font-semibold text-gray-800 hover:text-peskonrun-primary"
+                  className="text-sm font-semibold text-gray-800 hover:text-peskon-primary"
                 >
                   {item.label}
                 </button>

@@ -176,14 +176,14 @@ export default function AttendancePage() {
                                             <div className="flex justify-end gap-2">
                                                 <NavLink
                                                     to={`/admin/attendance/${event.id}`}
-                                                    className="text-xs font-medium px-3 py-1.5 rounded-md border border-blue-100 bg-blue-50 text-blue-600 hover:bg-blue-100 active:scale-[.97]"
+                                                    className="text-xs font-medium px-3 py-1.5 rounded-md border border-blue-100 bg-blue-50 text-blue-600 hover:bg-blue-100 active:scale-[.97] hover:cursor-pointer"
                                                 >
                                                     View Attendance
                                                 </NavLink>
                                                 <button
                                                     type="button"
                                                     onClick={() => handleShowQR(event.id)}
-                                                    className="text-xs font-medium px-3 py-1.5 rounded-md border border-green-200 bg-green-50 text-green-700 hover:bg-green-100 active:scale-[.97]"
+                                                    className="text-xs font-medium px-3 py-1.5 rounded-md border border-green-200 bg-green-50 text-green-700 hover:bg-green-100 active:scale-[.97] hover:cursor-pointer"
                                                 >
                                                     Show QR
                                                 </button>
@@ -198,7 +198,7 @@ export default function AttendancePage() {
                                                     <button
                                                         type="button"
                                                         onClick={() => handleDownloadQR(event.id, event.title)}
-                                                        className="text-[11px] font-medium px-3 py-1.5 rounded-md border border-green-300 bg-green-200/40 text-green-800 hover:bg-green-200 active:scale-[.97]"
+                                                        className="text-[11px] font-medium px-3 py-1.5 rounded-md border border-green-300 bg-green-200/40 text-green-800 hover:bg-green-200 active:scale-[.97] hover:cursor-pointer"
                                                     >
                                                         Download QR
                                                     </button>

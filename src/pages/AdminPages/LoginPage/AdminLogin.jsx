@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import TextInputField from '../../../components/ui/input/TextInputField.jsx'
 import PrimaryButton from '../../../components/ui/button/PrimaryButton.jsx'
 import api from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const AdminLogin = () => {
 
@@ -54,6 +54,9 @@ const AdminLogin = () => {
                     </div>
                     { !loading ? <PrimaryButton text='Login'/> : <PrimaryButton text='Login' disabled/>}
                 </form>
+                <NavLink to="/" className="text-sm text-blue-600 hover:underline mt-4 self-center">
+                    &larr; Back to Home
+                </NavLink>
             </div>
         </div>
     )
