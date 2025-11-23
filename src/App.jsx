@@ -3,12 +3,9 @@ import { useState } from 'react';
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
-import PrimaryButton from './components/ui/button/PrimaryButton';
-import SecondaryButton from './components/ui/button/SecondaryButton';
-import TextInputField from './components/ui/input/TextInputField';
-import CreateEvent from './AmirPages/AmirPages/CreateEvent';
-import Dashboard from './AmirPages/AmirPages/Dashboard';
-import EditEvent from './AmirPages/AmirPages/EditEvent';
+import CreateEvent from './pages/CreateEventPage/CreateEvent.jsx';
+import Dashboard from './pages/AdminDashboard/Dashboard.jsx';
+import EditEvent from './pages/EditEventPage/EditEvent.jsx';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,7 +20,7 @@ function App() {
       <div className="flex flex-col w-full min-h-screen">
         <Navbar />
         <div className="flex flex-grow">
-          <Dashboard />
+          <h1>Homepage</h1>
         </div>
         <Footer />
       </div>

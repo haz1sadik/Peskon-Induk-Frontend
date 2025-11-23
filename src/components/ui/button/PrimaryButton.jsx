@@ -38,7 +38,7 @@ const PrimaryButton = ({
   );
 
   const style =
-    "inline-flex items-center justify-center gap-[0.5rem] rounded-full px-[1.25rem] py-[0.625rem] bg-peskon-primary hover:bg-peskon-primary-hover disabled:bg-peskon-primary/45 text-white text-sm cursor-pointer disabled:cursor-not-allowed";
+    "w-full inline-flex items-center justify-center gap-[0.5rem] rounded-full px-[1.25rem] py-[0.625rem] bg-peskon-primary hover:bg-peskon-primary-hover disabled:bg-peskon-primary/45 text-white text-sm cursor-pointer disabled:cursor-not-allowed";
 
   if (to) {
     return (
