@@ -67,7 +67,7 @@ const OtherEvents = () => {
 
   // ---------- Sort earliest and take first 3 ----------
   const earliestEvents = [...events]
-    .sort((a, b) => new Date(a.date_time) - new Date(b.date_time))
+    
     .slice(0, 3);
 
 

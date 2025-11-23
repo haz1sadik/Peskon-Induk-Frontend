@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react'
 import axios from '../../axios'
-import rumahSeram from '../../assets/rumahSeram.png'
+
 import arrow from '../../assets/arrow.svg'
 import DOMPurify from 'dompurify';
 import { useParams } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
-
 
 const EventCard = () => {
 
@@ -132,7 +131,7 @@ const EventCard = () => {
             {/* Image column – fixed width on md+ so it won't shrink */}
             <div className="w-full md:w-[360px] lg:w-[400px] flex-none">
               <img
-                src={events.poster_url || rumahSeram}
+                src={events.poster_url}
                 alt="rumahSeram"
                 className="
                   w-full

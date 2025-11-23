@@ -6,6 +6,7 @@ import AdminUI from './AdminUI.jsx'
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import Homepage from './pages/homepage/index.jsx';
 import EventDetails from './pages/eventdetails/index.jsx';
+import About from './pages/about/index.jsx';
 import CreateEvent from './pages/AdminPages/CreateEventPage/CreateEvent.jsx'
 import EditEvent from './pages/AdminPages/EditEventPage/EditEvent.jsx'
 import AdminLogin from './pages/AdminPages/LoginPage/AdminLogin.jsx'
@@ -27,6 +28,10 @@ const router = createHashRouter([
       {
         path: "/eventdetails/:eventId",
         element: <EventDetails />,
+      },
+      {
+        path: "/about",
+        element: <About/>,
       },
     ],
     //errorElement: <R404 />
