@@ -14,6 +14,9 @@ import Dashboard from './pages/AdminPages/AdminDashboard/Dashboard.jsx'
 import AttendancePage from './pages/AdminPages/AttendencesPage/AttendancePage.jsx'
 import EventAttendanceListPage from './pages/AdminPages/AttendencesPage/EventAttendanceList.jsx'
 import SubmitAttendancePage from './pages/SubmitAttendancePage/SubmitAttendancePage.jsx'
+import { BrowserRouter } from "react-router-dom";
+import AllEvents from './Homepage/AllEvents.jsx'; 
+import Home from "./Home.jsx"; 
 
 const router = createHashRouter([
   {
@@ -22,16 +25,7 @@ const router = createHashRouter([
     children: [
       {
         path: "/",
-        element: <Homepage />,
-        index: true,
-      },
-      {
-        path: "/eventdetails/:eventId",
-        element: <EventDetails />,
-      },
-      {
-        path: "/about",
-        element: <About/>,
+        element: <h1>HEHE</h1>,
       },
     ],
     //errorElement: <R404 />
@@ -72,7 +66,7 @@ const router = createHashRouter([
   },
 ])
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>

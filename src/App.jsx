@@ -1,28 +1,22 @@
-import './App.css'
-import { useState } from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import './App.css';
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import "./index.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  const handleClick = () => {
-    console.log("Clicked");
-
-  }
-
   return (
-    <>
-      <div className="flex flex-col w-full min-h-screen">
-        <Navbar />
-        <div className="flex flex-grow">
-          <Outlet />
-        </div>
-        <Footer />
-      </div>
-    </>
-  )
+    <div className="flex flex-col w-full min-h-screen">
+      <Navbar />
+
+      <main className="flex-1">
+        <Outlet />
+      </main>
+
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;
