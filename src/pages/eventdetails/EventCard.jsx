@@ -20,11 +20,7 @@ const EventCard = () => {
   useEffect(() => {
     if (!eventId) return; // don't fetch when undefined
 
-    if (firstLoadRef.current) {
-      firstLoadRef.current = false;
-    } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
     // optionally clear previous details while loading
     setEvents({});
