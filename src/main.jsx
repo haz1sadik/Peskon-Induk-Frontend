@@ -14,9 +14,10 @@ import Dashboard from './pages/AdminPages/AdminDashboard/Dashboard.jsx'
 import AttendancePage from './pages/AdminPages/AttendencesPage/AttendancePage.jsx'
 import EventAttendanceListPage from './pages/AdminPages/AttendencesPage/EventAttendanceList.jsx'
 import SubmitAttendancePage from './pages/SubmitAttendancePage/SubmitAttendancePage.jsx'
-import { BrowserRouter } from "react-router-dom";
-import AllEvents from './Homepage/AllEvents.jsx'; 
-import Home from "./Home.jsx"; 
+import Home from './pages/homepage/index.jsx'
+import AllEvents from './pages/homepage/AllEvents.jsx'
+import CreateAnnouncementPage from './pages/AdminPages/AnnouncementsPage/CreateAnnouncementPage.jsx'
+import AllAnnouncements from './pages/AdminPages/AnnouncementsPage/AllAnnouncements.jsx'
 
 const router = createHashRouter([
   {
@@ -25,7 +26,19 @@ const router = createHashRouter([
     children: [
       {
         path: "/",
-        element: <h1>HEHE</h1>,
+        element: <Home/>,
+      },
+      {
+        path: "/eventdetails/:eventId",
+        element: <EventDetails />,
+      },
+      {
+        path: "/about",
+        element: <About/>,
+      },
+      {
+        path: "/all-events",
+        element: <AllEvents/>,
       },
     ],
     //errorElement: <R404 />
@@ -53,6 +66,14 @@ const router = createHashRouter([
       {
         path: "/admin/attendance/:eventId",
         element: <EventAttendanceListPage />
+      },
+      {
+        path: "/admin/announcements",
+        element: <AllAnnouncements />
+      },
+      {
+        path: "/admin/announcements/create",
+        element: <CreateAnnouncementPage />
       },
     ]
   },

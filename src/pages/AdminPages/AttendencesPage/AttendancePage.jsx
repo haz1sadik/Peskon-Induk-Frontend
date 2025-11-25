@@ -38,6 +38,7 @@ export default function AttendancePage() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [qrImages, setQrImages] = useState({}); // eventId -> qr_image_url
+    const [qrLoading, setQrLoading] = useState({}); // eventId -> loading boolean
     const navigate = useNavigate();
 
     // Auth redirect
@@ -69,6 +70,8 @@ export default function AttendancePage() {
             navigate('/admin/login');
             return;
         }
+        // Set loading true for this event's QR fetch
+        setQrLoading((prev) => ({ ...prev, [eventId]: true }));
         try {
             // Try to get existing active QR
             const res = await api.get(`${import.meta.env.VITE_API_BASEURL}/api/admin/events/qr/${eventId}`, {
@@ -76,12 +79,18 @@ export default function AttendancePage() {
             });
             if (res.data?.qr_image_url) {
                 setQrImages((prev) => ({ ...prev, [eventId]: res.data.qr_image_url }));
+                setQrLoading((prev) => ({ ...prev, [eventId]: false }));
                 return;
             }
         } catch (err) {
             // If 404 with specific message, generate new QR
             const status = err?.response?.status;
             const message = err?.response?.data?.message;
+            if (err.response && err.response.status === 403) {
+                // Forbidden, redirect to login
+                navigate('/admin/login');
+                setQrLoading((prev) => ({ ...prev, [eventId]: false }));
+            }
             if (status === 404 && message === 'No active QR code found for this event') {
                 try {
                     const genRes = await api.post(`${import.meta.env.VITE_API_BASEURL}/api/admin/events/generate-qr/${eventId}`, {}, {
@@ -89,19 +98,24 @@ export default function AttendancePage() {
                     });
                     if (genRes.data?.qr_image_url) {
                         setQrImages((prev) => ({ ...prev, [eventId]: genRes.data.qr_image_url }));
+                        setQrLoading((prev) => ({ ...prev, [eventId]: false }));
                         return;
                     }
                 } catch (genErr) {
                     console.error('Error generating QR code', genErr);
                     alert('Failed to generate QR code.');
+                    setQrLoading((prev) => ({ ...prev, [eventId]: false }));
                     return;
                 }
             } else {
                 console.error('Error retrieving QR code', err);
                 alert('Failed to retrieve QR code.');
+                setQrLoading((prev) => ({ ...prev, [eventId]: false }));
                 return;
             }
         }
+        // Fallback: ensure loading cleared if no early return occurred
+        setQrLoading((prev) => ({ ...prev, [eventId]: false }));
     };
 
     const handleDownloadQR = async (eventId, title) => {
@@ -183,11 +197,17 @@ export default function AttendancePage() {
                                                 <button
                                                     type="button"
                                                     onClick={() => handleShowQR(event.id)}
-                                                    className="text-xs font-medium px-3 py-1.5 rounded-md border border-green-200 bg-green-50 text-green-700 hover:bg-green-100 active:scale-[.97] hover:cursor-pointer"
+                                                    disabled={qrLoading[event.id]}
+                                                    className={`text-xs font-medium px-3 py-1.5 rounded-md border border-green-200 bg-green-50 text-green-700 hover:bg-green-100 active:scale-[.97] hover:cursor-pointer ${qrLoading[event.id] ? 'opacity-60 cursor-not-allowed' : ''}`}
                                                 >
-                                                    Show QR
+                                                    {qrLoading[event.id] ? 'Loading...' : 'Show QR'}
                                                 </button>
                                             </div>
+                                            {qrLoading[event.id] && !qrImages[event.id] && (
+                                                <div className="pt-2 border-t border-gray-100 flex justify-center">
+                                                    <div className="text-xs text-gray-500 animate-pulse">Loading QR...</div>
+                                                </div>
+                                            )}
                                             {qrImages[event.id] && (
                                                 <div className="pt-2 border-t border-gray-100 flex flex-col items-center gap-2">
                                                     <img

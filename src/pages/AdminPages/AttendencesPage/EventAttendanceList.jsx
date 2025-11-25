@@ -36,6 +36,10 @@ export default function EventAttendanceListPage() {
                 setAttendance(Array.isArray(res.data.attendance) ? res.data.attendance : []);
             } catch (err) {
                 console.error('Failed to fetch attendance', err);
+                if (err.response && err.response.status === 403) {
+                    // Forbidden, redirect to login
+                    navigate('/admin/login');
+                }
                 setError('Failed to fetch attendance.');
             } finally {
                 setLoading(false);

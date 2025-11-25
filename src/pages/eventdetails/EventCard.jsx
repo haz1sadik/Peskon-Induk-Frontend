@@ -26,13 +26,6 @@ const EventCard = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Skip smooth scroll on the very first load, only on param changes
-    if (firstLoadRef.current) {
-      firstLoadRef.current = false;
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
     // optionally clear previous details while loading
     setEvents({});
     getEvents();
@@ -114,22 +107,22 @@ const EventCard = () => {
   return (
     <>
       {/* Outer container – center everything */}
-      <div className="w-full flex justify-center px-4 py-10 ">
-        <div className="w-fit  mx-auto  ">
+      <div className="w-full flex justify-center md:py-12 py-6 px-4 md:px-8">
+        <div className="w-full max-w-6xl mx-auto">
           <div className="flex gap-4 my-4">
             <NavLink to="/">
-              <p className="ml-7 text-gray-500 sm:text-[1rem] text-[0.8rem]">Home </p>
+              <p className="ml-2 md:ml-7 text-gray-500 sm:text-[1rem] text-[0.8rem]">Home </p>
             </NavLink>
 
             <img src={arrow} alt="arrow" className="sm:h-4 h-3 sm:mt-1 mt-[0.3rem]" />
             <p className="sm:text-[1rem] text-[0.8rem]">{events.title}</p>
           </div>
 
-          {/* Flex layout: column on mobile, side-by-side on md+ */}
-          <div className="flex flex-col md:flex-row items-start gap-5 mx-6">
+          {/* Flex layout: column on mobile, centered side-by-side on md+ */}
+          <div className="flex flex-col md:flex-row justify-center items-center md:items-start w-full">
 
-            {/* Image column – fixed width on md+ so it won't shrink */}
-            <div className="w-full md:w-[360px] lg:w-[400px] flex-none">
+            {/* Image column – fixed width on md+, centered */}
+            <div className="w-full md:w-[360px] lg:w-[400px]">
               <img
                 src={events.poster_url}
                 alt="rumahSeram"
@@ -143,36 +136,36 @@ const EventCard = () => {
               />
             </div>
 
-            {/* Details column – takes remaining width, grows vertically */}
-            <div className="flex-1">
+            {/* Details column – takes remaining width, grows vertically, centered */}
+            <div className="flex-1 w-full mt-5 md:mt-0 md:ml-6 md:max-w-lg">
               <div
                 className="
                   shadow-[3px_4px_20px_0_rgba(0,0,0,0.10)]
                   rounded-2xl
                   p-8
-                  lg:max-w-[30rem]
                   w-full
+                
                 "
               >
 
                 <div className='flex flex-col lg:gap-6 gap-3 w-full lg:my-2 my-1'>
                   <div>
-                    <p className='whitespace-pre-line lg:text-[1.5rem] font-bold text-[0.8rem]'>{events.title}</p>
+                    <p className='whitespace-pre-line md:text-[1.5rem] font-bold text-[1.5rem]'>{events.title}</p>
                     <hr class="h-px mt-5 bg-neutral-quaternary text-gray-300"></hr>
                   </div>
 
                   <div>
-                    <h1 className='text-gray-500 lg:text-[0.9rem] text-[0.8rem] mb-1'>Date</h1>
-                    <p className='whitespace-pre-line lg:text-[1rem] text-[0.8rem]'>{formatDate(events.date_time, events.end_date_time)}</p>
+                    <h1 className='text-gray-500 md:text-[0.9rem] text-[0.9rem] mb-1'>Date</h1>
+                    <p className='whitespace-pre-line md:text-[1rem] text-[1rem]'>{formatDate(events.date_time, events.end_date_time)}</p>
                   </div>
 
                   {startTime || endTime ? (
                     <div>
-                      <h1 className="text-gray-500 lg:text-[0.9rem] text-[0.8rem] mb-1">
+                      <h1 className="text-gray-500 md:text-[0.9rem] text-[0.9rem] mb-1">
                         Time
                       </h1>
 
-                      <p className="lg:text-[1rem] text-[0.8rem]">
+                      <p className="md:text-[1rem] text-[1rem]">
                         {
                           startTime
                             ? endTime
@@ -185,13 +178,13 @@ const EventCard = () => {
                   ) : null}
 
                   <div>
-                    <h1 className='text-gray-500 lg:text-[0.9rem] text-[0.8rem] mb-1'>Location</h1>
-                    <p className='whitespace-pre-line lg:text-[1rem] text-[0.8rem]'>{events.location}</p>
+                    <h1 className='text-gray-500 md:text-[0.9rem] text-[0.9rem] mb-1'>Location</h1>
+                    <p className='whitespace-pre-line md:text-[1rem] text-[1rem]'>{events.location}</p>
                   </div>
 
                   <div>
-                    <h1 className='text-gray-500 lg:text-[0.9rem] text-[0.8rem] mb-1'>Description</h1>
-                    <p className='whitespace-pre-line lg:text-[1rem] text-[0.8rem]' dangerouslySetInnerHTML={{ __html: clean }} />
+                    <h1 className='text-gray-500 md:text-[0.9rem] text-[0.9rem] mb-1'>Caption</h1>
+                    <p className='whitespace-pre-line md:text-[1rem] text-[1rem]' dangerouslySetInnerHTML={{ __html: clean }} />
                   </div>
 
                 </div>

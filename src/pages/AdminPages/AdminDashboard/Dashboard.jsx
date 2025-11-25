@@ -87,6 +87,10 @@ export default function Dashboard() {
       alert("Event deleted successfully");
     } catch (err) {
       console.error(err);
+      if (err.response && err.response.status === 403) {
+        // Forbidden, redirect to login
+        navigate('/admin/login');
+      }
       alert("Failed to delete event.");
     }
   };

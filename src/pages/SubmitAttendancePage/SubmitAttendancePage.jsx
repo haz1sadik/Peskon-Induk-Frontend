@@ -6,7 +6,7 @@ import axios from '../../axios.js';
 import Navbar from '../../components/layout/Navbar.jsx';
 import Footer from '../../components/layout/Footer.jsx';
 
-const collegeOptions = ["Kolej Canselor (KC)", "Kolej Tun Dr Ismail (KTDI)", "Kolej Sultan Alaeddin Suleiman Shah (KOSASS)", "Kolej Pendeta Za’ba (KPZ)", "Kolej Tan Sri Aishah Ghani (KTAG)", "Kolej Dua Belas (K12)", "Kolej Empat Belas (K14)", "Kolej Sepuluh (K10)", "Kolej Tan Sri Mustaffa Babjee (KMB)"];
+const collegeOptions = ["Pelajar Luar Kampus (PLK)", "Kolej Canselor (KC)", "Kolej Tun Dr Ismail (KTDI)", "Kolej Sultan Alaeddin Suleiman Shah (KOSASS)", "Kolej Pendeta Za’ba (KPZ)", "Kolej Tan Sri Aishah Ghani (KTAG)", "Kolej Dua Belas (K12)", "Kolej Empat Belas (K14)", "Kolej Sepuluh (K10)", "Kolej Tan Sri Mustaffa Babjee (KMB)"];
 
 const SubmitAttendancePage = () => {
     const { qr_token } = useParams();
