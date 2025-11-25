@@ -10,6 +10,7 @@ const Navbar = () => {
     const menuItems = [
         { label: "Events", path: "admin" },
         { label: "Attendances", path: "admin/attendance" },
+        { label: "Announcements", path: "admin/announcements" },
     ];
 
     // 🧠 Close dropdown automatically when route changes (e.g. /register)
@@ -108,7 +109,9 @@ const Navbar = () => {
                                 </button>
                             </li>
                         ))}
-                        <PrimaryButton text="Admin Login" onClick={() => navigate('/admin')} />
+                        <button onClick={handleLogout} className="w-full inline-flex items-center justify-center gap-[0.5rem] rounded-full px-[1.25rem] py-[0.625rem] bg-transparent hover:bg-red-400 text-red-400 hover:text-white border border-red-400 text-sm cursor-pointer disabled:cursor-not-allowed">
+                            Logout
+                        </button>
                     </ul>
                 </div>
             )}

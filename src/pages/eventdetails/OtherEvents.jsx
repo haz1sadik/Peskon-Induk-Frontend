@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../../axios'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 
 
 const OtherEvents = () => {
 
   const navigate = useNavigate();
+  const { eventId: currentEventId } = useParams();
 
   const [events, setEvents] = useState([])
 
@@ -66,9 +67,9 @@ const OtherEvents = () => {
   }
 
   // ---------- Sort earliest and take first 3 ----------
-  const earliestEvents = [...events]
-    
-    .slice(0, 3);
+  // Filter out the currently opened event (by route param)
+  const otherEvents = events.filter(e => String(e.id) !== String(currentEventId));
+  const earliestEvents = otherEvents.slice(0, 3);
 
 
   return (

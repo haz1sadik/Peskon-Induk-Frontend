@@ -218,6 +218,10 @@ export default function CreateEvent() {
 
     } catch (err) {
       console.error("Edit Error:", err);
+      if (err.response && err.response.status === 403) {
+        // Forbidden, redirect to login
+        navigate('/admin/login');
+      }
       alert("Failed to edit event.");
     } finally {
       setIsLoading(false);

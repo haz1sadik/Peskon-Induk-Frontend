@@ -5,6 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import api from "axios";
 import ImageKit from "imagekit-javascript";
 import PrimaryButton from "../../../components/ui/button/PrimaryButton";
+import imagecompression from 'browser-image-compression';
 
 const imagekit = new ImageKit({
   publicKey: import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
@@ -15,6 +16,7 @@ const imagekit = new ImageKit({
 export default function CreateEvent() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -79,22 +81,28 @@ export default function CreateEvent() {
   var expire = 0
   var publicKey = ''
   const handleFileChange = async (file) => {
-
     if (file && file.type.startsWith("image/")) {
       setPosterFile(file);
-      const response = await api.get(
-        `${import.meta.env.VITE_API_BASEURL}/api/admin/imagekit/auth`
-      ).then(res => {
-        signature = res.data.signature
-        token = res.data.token
-        expire = res.data.expire
-        publicKey = res.data.publicKey
-      });
-
+      setIsImageUploading(true);
       try {
+        const res = await api.get(
+          `${import.meta.env.VITE_API_BASEURL}/api/admin/imagekit/auth`
+        );
+        signature = res.data.signature;
+        token = res.data.token;
+        expire = res.data.expire;
+        publicKey = res.data.publicKey;
+
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        }
+
+        const compressedFile = await imagecompression(file, options);
 
         const uploadResponse = await imagekit.upload({
-          file: file,
+          file: compressedFile,
           fileName: `${formData.title}_POSTER`,
           signature: signature,
           token: token,
@@ -102,21 +110,20 @@ export default function CreateEvent() {
           publicKey: publicKey,
         });
 
-        console.log(uploadResponse);
-
         setFormData((prev) => ({
           ...prev,
           poster_url: uploadResponse.url,
         }));
 
+        // Create a local preview URL after successful upload
+        setPreviewUrl(URL.createObjectURL(file));
       } catch (error) {
         alert("Image upload failed. Please try again.");
         console.error("Image upload error:", error);
         return;
+      } finally {
+        setIsImageUploading(false);
       }
-
-      // Create a local preview URL
-      setPreviewUrl(URL.createObjectURL(file));
     } else {
       alert("Please select a valid image file.");
     }
@@ -130,16 +137,19 @@ export default function CreateEvent() {
 
   const onDragOver = (e) => {
     e.preventDefault();
+    if (isImageUploading) return;
     setIsDragging(true);
   };
 
   const onDragLeave = (e) => {
     e.preventDefault();
+    if (isImageUploading) return;
     setIsDragging(false);
   };
 
   const onDrop = (e) => {
     e.preventDefault();
+    if (isImageUploading) return;
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFileChange(e.dataTransfer.files[0]);
@@ -200,6 +210,10 @@ export default function CreateEvent() {
 
     } catch (err) {
       console.error("Create Error:", err);
+      if (err.response && err.response.status === 403) {
+        // Forbidden, redirect to login
+        navigate('/admin/login');
+      }
       alert("Failed to create event.");
     } finally {
       setIsLoading(false);
@@ -207,8 +221,8 @@ export default function CreateEvent() {
   };
 
   return (
-    <div className="w-full flex justify-center py-10 px-4 font-inter text-gray-800 bg-gray-50 min-h-screen">
-      <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-4xl border border-gray-100">
+    <div className="w-full flex justify-center py-10 px-4 font-inter text-gray-800 bg-gray-50">
+      <div className="bg-white h-fit shadow-lg rounded-2xl p-8 w-full max-w-4xl border border-gray-100">
         <h1 className="text-2xl font-bold mb-6 text-gray-900">Create New Event</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -220,8 +234,6 @@ export default function CreateEvent() {
               placeholder="e.g. Majlis Pelancaran PESKON"
             />
           </div>
-
-          {/* Location */}
           <div>
             <label className="block font-semibold mb-2 text-sm">Location</label>
             <input type="text" name="location" value={formData.location} onChange={handleChange} required
@@ -229,7 +241,6 @@ export default function CreateEvent() {
               placeholder="e.g. Dewan Besar UPM"
             />
           </div>
-
           {/* Date & Time */}
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -275,14 +286,23 @@ export default function CreateEvent() {
                 className={`relative w-full min-h-64 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all duration-200 cursor-pointer bg-gray-50
                   ${isDragging ? "border-[#38ab70] bg-green-50" : "border-gray-300 hover:bg-gray-100"}
                 `}
+                aria-busy={isImageUploading ? "true" : "false"}
               >
                 <input
                   type="file"
                   accept="image/*"
                   onChange={onFileSelect}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  disabled={isImageUploading}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
                   required
                 />
+
+                {isImageUploading && (
+                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/70 rounded-xl">
+                    <div className="h-8 w-8 rounded-full border-4 border-[#38ab70] border-t-transparent animate-spin mb-2"></div>
+                    <p className="text-sm font-medium text-gray-700">Uploading image...</p>
+                  </div>
+                )}
 
                 <div className="flex flex-col items-center text-center p-4 pointer-events-none">
                   <svg className={`w-12 h-12 mb-3 ${isDragging ? "text-[#38ab70]" : "text-gray-400"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -338,7 +358,7 @@ export default function CreateEvent() {
             <label className="font-medium text-gray-800 text-sm">Mark as Featured Event</label>
           </div>
 
-            <PrimaryButton text={isLoading ? "Submitting..." : "Create Event"} disabled={isLoading} />
+          <PrimaryButton text={isLoading ? "Submitting..." : "Create Event"} disabled={isLoading || isImageUploading} />
         </form>
       </div>
     </div>

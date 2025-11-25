@@ -9,7 +9,7 @@ const Navbar = () => {
 
   const menuItems = [
     { label: "Home", path: "" },
-    { label: "Events", path: "events" },
+    { label: "Events", path: "all-events" },
     { label: "About", path: "about" },
   ];
 
@@ -18,24 +18,10 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location.pathname]);
 
-  // Smooth scroll to section
-  const handleScroll = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  // Works across pages
-  const handleNavigation = (id) => {
-    if (location.pathname === "/") {
-      // Already on home page — scroll only
-      handleScroll(id);
-    } else {
-      // Go to home, then scroll after a short delay
-      navigate(`/${id}`);
-      setTimeout(() => handleScroll(id), 400);
-    }
+  // Mobile navigation: always route change (no scroll-to-section behavior)
+  const handleNavigation = (path) => {
+    navigate(path ? `/${path}` : "/");
+    setIsOpen(false);
   };
 
   return (
@@ -59,7 +45,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex justify-center items-center gap-12">
+        <ul className="hidden md:flex justify-center items-center gap-6">
           {menuItems.map((item) => (
             <li key={item.path}>
               <button
@@ -70,8 +56,8 @@ const Navbar = () => {
               </button>
             </li>
           ))}
-          <PrimaryButton text="Admin Login" onClick={() => navigate('/admin')}/>
-          
+          <PrimaryButton text="Admin Login" onClick={() => navigate('/admin')} />
+
         </ul>
 
         {/* Mobile Hamburger */}
@@ -102,7 +88,7 @@ const Navbar = () => {
                 </button>
               </li>
             ))}
-            <PrimaryButton text="Admin Login" onClick={() => navigate('/admin')}/>      
+            <PrimaryButton text="Admin Login" onClick={() => navigate('/admin')} />
           </ul>
         </div>
       )}

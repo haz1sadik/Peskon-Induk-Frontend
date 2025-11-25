@@ -14,6 +14,10 @@ import Dashboard from './pages/AdminPages/AdminDashboard/Dashboard.jsx'
 import AttendancePage from './pages/AdminPages/AttendencesPage/AttendancePage.jsx'
 import EventAttendanceListPage from './pages/AdminPages/AttendencesPage/EventAttendanceList.jsx'
 import SubmitAttendancePage from './pages/SubmitAttendancePage/SubmitAttendancePage.jsx'
+import Home from './pages/homepage/index.jsx'
+import AllEvents from './pages/homepage/AllEvents.jsx'
+import CreateAnnouncementPage from './pages/AdminPages/AnnouncementsPage/CreateAnnouncementPage.jsx'
+import AllAnnouncements from './pages/AdminPages/AnnouncementsPage/AllAnnouncements.jsx'
 
 const router = createHashRouter([
   {
@@ -22,8 +26,7 @@ const router = createHashRouter([
     children: [
       {
         path: "/",
-        element: <Homepage />,
-        index: true,
+        element: <Home/>,
       },
       {
         path: "/eventdetails/:eventId",
@@ -32,6 +35,10 @@ const router = createHashRouter([
       {
         path: "/about",
         element: <About/>,
+      },
+      {
+        path: "/all-events",
+        element: <AllEvents/>,
       },
     ],
     //errorElement: <R404 />
@@ -60,6 +67,14 @@ const router = createHashRouter([
         path: "/admin/attendance/:eventId",
         element: <EventAttendanceListPage />
       },
+      {
+        path: "/admin/announcements",
+        element: <AllAnnouncements />
+      },
+      {
+        path: "/admin/announcements/create",
+        element: <CreateAnnouncementPage />
+      },
     ]
   },
   {
@@ -72,7 +87,7 @@ const router = createHashRouter([
   },
 ])
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>
