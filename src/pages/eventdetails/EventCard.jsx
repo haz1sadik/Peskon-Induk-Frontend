@@ -20,7 +20,7 @@ const EventCard = () => {
   useEffect(() => {
     if (!eventId) return; // don't fetch when undefined
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // optionally clear previous details while loading
     setEvents({});
@@ -39,7 +39,61 @@ const EventCard = () => {
     }
   }
 
-  const clean = DOMPurify.sanitize(events.description || '');
+  // Normalize anchors from Quill content (ensure absolute https links, strip hidden chars)
+  function normalizeAnchors(html) {
+    if (!html) return '';
+
+    try {
+      const parser = new DOMParser();
+      // Wrap in a container to safely read back innerHTML
+      const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html');
+      const root = doc.body.firstChild || doc.body;
+      const anchors = root.querySelectorAll ? root.querySelectorAll('a[href]') : [];
+
+      anchors.forEach((a) => {
+        let href = a.getAttribute('href') || '';
+        href = href.trim();
+        // Remove zero-width and directionality marks that sometimes appear when pasting
+        href = href.replace(/[\u200B-\u200D\uFEFF\u200E\u200F]/g, '');
+
+        // Allow common safe schemes
+        const hasHttp = /^https?:\/\//i.test(href);
+        const isProtocolRelative = /^\/\//.test(href);
+        const isMailOrTel = /^(mailto:|tel:)/i.test(href);
+        const hasOtherScheme = /^[a-zA-Z][a-zA-Z0-9+\-.]*:/.test(href);
+
+        if (!hasHttp && !isMailOrTel) {
+          if (isProtocolRelative) {
+            href = 'https:' + href;
+          } else if (!hasOtherScheme) {
+            // Looks like a domain? Add https://
+            if (/^www\./i.test(href) || /^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(href)) {
+              href = 'https://' + href;
+            }
+            // else leave relative links as-is
+          }
+        }
+
+        a.setAttribute('href', href);
+
+        // Always open in new tab safely
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
+      });
+
+      return root.innerHTML;
+    } catch (e) {
+      // Fallback to original content on parser error
+      return html;
+    }
+  }
+
+  // First normalize URLs, then sanitize for safety
+  // Explicitly allow 'target' so links can open in new tabs
+  const clean = DOMPurify.sanitize(
+    normalizeAnchors(events.description || ''),
+    { ADD_ATTR: ['target', 'rel'] }
+  );
 
   // Helper: format one date as "28 Nov 25"
   function formatSingleDate(dateString) {
@@ -147,7 +201,7 @@ const EventCard = () => {
                 <div className='flex flex-col lg:gap-6 gap-3 w-full lg:my-2 my-1'>
                   <div>
                     <p className='whitespace-pre-line md:text-[1.5rem] font-bold text-[1.5rem]'>{events.title}</p>
-                    <hr class="h-px mt-5 bg-neutral-quaternary text-gray-300"></hr>
+                    <hr className="h-px mt-5 bg-neutral-quaternary text-gray-300"></hr>
                   </div>
 
                   <div>
@@ -180,7 +234,11 @@ const EventCard = () => {
 
                   <div>
                     <h1 className='text-gray-500 md:text-[0.9rem] text-[0.9rem] mb-1'>Caption</h1>
-                    <p className='whitespace-pre-line md:text-[1rem] text-[1rem]' dangerouslySetInnerHTML={{ __html: clean }} />
+                    <div
+                      className='caption-content whitespace-pre-line wrap-break-word md:text-[1rem] text-[1rem]'
+                      style={{ overflowWrap: 'anywhere' }}
+                      dangerouslySetInnerHTML={{ __html: clean }}
+                    />
                   </div>
 
                 </div>

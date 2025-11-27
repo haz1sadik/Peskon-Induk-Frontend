@@ -11,3 +11,12 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+/* Style links inside event caption content */
+.caption-content a {
+  color: #2563eb; /* Tailwind blue-600 */
+  text-decoration: underline;
+}
+.caption-content a:hover {
+  text-decoration: underline;
+}
