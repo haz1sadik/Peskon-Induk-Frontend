@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import PrimaryButton from "../ui/button/PrimaryButton";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,9 +8,9 @@ const Navbar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { label: "Home", path: "home" },
-    { label: "Entitlements", path: "runKit" },
-    { label: "Details", path: "details" },
+    { label: "Home", path: "" },
+    { label: "Events", path: "all-events" },
+    { label: "About", path: "about" },
   ];
 
   // 🧠 Close dropdown automatically when route changes (e.g. /register)
@@ -17,24 +18,10 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location.pathname]);
 
-  // Smooth scroll to section
-  const handleScroll = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  // Works across pages
-  const handleNavigation = (id) => {
-    if (location.pathname === "/") {
-      // Already on home page — scroll only
-      handleScroll(id);
-    } else {
-      // Go to home, then scroll after a short delay
-      navigate("/");
-      setTimeout(() => handleScroll(id), 400);
-    }
+  // Mobile navigation: always route change (no scroll-to-section behavior)
+  const handleNavigation = (path) => {
+    navigate(path ? `/${path}` : "/");
+    setIsOpen(false);
   };
 
   return (
@@ -58,18 +45,19 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex items-start gap-12">
+        <ul className="hidden md:flex justify-center items-center gap-6">
           {menuItems.map((item) => (
             <li key={item.path}>
               <button
-                onClick={() => handleNavigation(item.path)}
-                className="text-sm font-semibold text-gray-800 hover:text-peskonrun-primary cursor-pointer"
+                onClick={() => navigate(`/${item.path}`)}
+                className="text-sm font-semibold text-gray-800 hover:text-peskon-primary cursor-pointer"
               >
                 {item.label}
               </button>
             </li>
           ))}
-          
+          <PrimaryButton text="Admin Login" onClick={() => navigate('/admin')} />
+
         </ul>
 
         {/* Mobile Hamburger */}
@@ -88,20 +76,19 @@ const Navbar = () => {
 
       {/* ✅ Mobile Dropdown */}
       {isOpen && (
-        <div className="sticky top-18 z-9999 md:hidden bg-white shadow-inner border border-peskonrun-primary/10 rounded-b-2xl">
-          <ul className="flex flex-col px-6 py-6 gap-4">
+        <div className="sticky top-18 z-9999 md:hidden bg-white shadow-inner border border-peskon-primary/10 rounded-b-2xl">
+          <ul className="flex flex-col px-6 py-6 gap-8 items-center">
             {menuItems.map((item) => (
               <li key={item.path}>
                 <button
                   onClick={() => handleNavigation(item.path)}
-                  className="text-sm font-semibold text-gray-800 hover:text-peskonrun-primary"
+                  className="text-sm font-semibold text-gray-800 hover:text-peskon-primary"
                 >
                   {item.label}
                 </button>
               </li>
             ))}
-
-            
+            <PrimaryButton text="Admin Login" onClick={() => navigate('/admin')} />
           </ul>
         </div>
       )}
