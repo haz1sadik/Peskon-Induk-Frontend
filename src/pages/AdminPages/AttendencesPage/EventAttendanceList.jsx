@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
 
 export default function EventAttendanceListPage() {
     const { eventId } = useParams();
@@ -10,6 +11,7 @@ export default function EventAttendanceListPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [search, setSearch] = useState('');
+    const [downloading, setDownloading] = useState(false);
 
     // Redirect if not authenticated
     useEffect(() => {
@@ -68,6 +70,35 @@ export default function EventAttendanceListPage() {
         return Object.entries(counts).sort((a, b) => b[1] - a[1]);
     }, [attendance]);
 
+    const handleDownload = async () => {
+        try {
+            setDownloading(true);
+            const rows = (search.trim() ? filtered : attendance).map((a, idx) => [
+                idx + 1,
+                a.name || '',
+                a.matric_no || '',
+                a.college || '',
+            ]);
+            const header = ['#', 'Name', 'Matric No', 'College'];
+            const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Attendance');
+
+            const safeEvent = (eventName || 'Event')
+                .toString()
+                .replace(/[^a-z0-9\-\_\s]/gi, '')
+                .trim()
+                .replace(/\s+/g, '_');
+            const date = new Date().toISOString().slice(0, 10);
+            const filename = `${safeEvent || 'Event'}_attendance_${date}.xlsx`;
+            XLSX.writeFile(wb, filename);
+        } catch (e) {
+            console.error('Failed to generate Excel', e);
+        } finally {
+            setDownloading(false);
+        }
+    };
+
     return (
         <div className="w-full min-h-screen bg-gray-50 font-inter text-gray-800 py-10 px-4 flex justify-center">
             <div className="w-full max-w-6xl">
@@ -87,6 +118,22 @@ export default function EventAttendanceListPage() {
                             onChange={e => setSearch(e.target.value)}
                             className="w-full md:w-72 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
+                        <button
+                            type="button"
+                            onClick={handleDownload}
+                            disabled={loading || downloading || attendance.length === 0}
+                            className="inline-flex items-center gap-2 rounded-full bg-peskon-primary px-5 py-3 text-sm font-medium text-white hover:bg-peskon-primary-hover hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                            title={search ? 'Download filtered results' : 'Download all attendance'}
+                        >
+                            {downloading ? (
+                                <span className="inline-flex items-center gap-2">
+                                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/70 border-t-transparent"></span>
+                                    Downloading...
+                                </span>
+                            ) : (
+                                'Download Sheet'
+                            )}
+                        </button>
                     </div>
                 </div>
 
