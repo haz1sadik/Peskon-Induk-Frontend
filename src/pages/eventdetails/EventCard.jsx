@@ -157,11 +157,11 @@ const EventCard = () => {
   return (
     <>
       {/* Outer container – center everything */}
-      <div className="w-full flex justify-center md:py-12 py-6 px-4 md:px-8">
+      <div className="w-full flex justify-center md:py-12 py-6 px-4 md:px-8 ">
         <div className="w-full max-w-6xl mx-auto">
           <div className="flex gap-4 my-4">
             <NavLink to="/">
-              <p className="ml-2 md:ml-7 text-gray-500 sm:text-[1rem] text-[0.8rem]">Home </p>
+              <p className="ml-2 md:ml-[7rem] text-gray-500 sm:text-[1rem] text-[0.8rem]">Home </p>
             </NavLink>
 
             <img src={arrow} alt="arrow" className="sm:h-4 h-3 sm:mt-1 mt-[0.3rem]" />
