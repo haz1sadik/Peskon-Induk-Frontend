@@ -5,66 +5,76 @@ import MPPUPMLogo from "/MPPUOM_Logo.png";
 import SonetraLogo from "/Sonetra_Logo.png";
 import PayNetLogo from "/paynet-seeklogo.png";
 import MahsariGroupLogo from "/MahsariGroup_Logo.png";
+import koperasiSiswazah from "/koperasiSiswazah.png";
+import delicaChocolate from "/delicaChocolate.png";
+import easyGlobal from "/easyGlobal.png";
+import olivko from "/olivko.png";
+import yayasanMahabbah from "/yayasanMahabbah.png";
+import maryKay from "/maryKay.png";
+import hotlinkLogo from "/hotlinkLogo.png";
+import monsterEnergy from "/monsterEnergy.png";
+import mvLogo from "/mvLogo.png";
+import upmEsportsClub from "/upmEsportsClub.png";
+import usPizza from "/usPizza.png";
+import redApe from "/redApe.png";
+import kartaLogo from "/kartaLogo.jpg";
+import rhbGroup from "/rhbGroup.png";
 
 const EventPartners = () => {
+  const partners = [
+    { src: upmLogo, alt: "UPM logo" },
+    { src: "/PESKON2025_Logo.png", alt: "PESKON 2025 logo" },
+    { src: mEventLogo, alt: "MEVENT logo" },
+    { src: MPPUPMLogo, alt: "MPP UPM logo" },
+    { src: PayNetLogo, alt: "PayNet logo" },
+    { src: MahsariGroupLogo, alt: "Mahsari Group logo" },
+    { src: koperasiSiswazah, alt: "Koperasi Siswazah logo" },
+    { src: delicaChocolate, alt: "Delica Chocolate logo" },
+    { src: easyGlobal, alt: "Easy Global logo" },
+    { src: olivko, alt: "Olivko logo" },
+    { src: yayasanMahabbah, alt: "Yayasan Mahabbah logo" },
+    { src: maryKay, alt: "Mary Kay logo" },
+    { src: hotlinkLogo, alt: "Hotline logo" },
+    { src: monsterEnergy, alt: "Monster Energy logo" },
+    { src: mvLogo, alt: "MV logo" },
+    { src: upmEsportsClub, alt: "UPM Esports Club logo" },
+    { src: usPizza, alt: "US Pizza logo" },
+    { src: redApe, alt: "Red Ape logo" },
+    { src: kartaLogo, alt: "Karta logo" },
+    { src: rhbGroup, alt: "RHB Group logo" },
+  ];
+
   return (
     <div className="lg:px-37 md:px-22 px-[3.7rem] lg:py-14 md:py-[3.2rem] py-[2.2rem]">
       <h1 className="text-peskonrun-primary font-bold lg:text-4xl md:text-[2rem] text-3xl text-center">
         Event Partners
       </h1>
 
-      <div className="hidden md:flex flex-col justify-center items-center gap-14 ">
-        <div className="grid grid-cols-4 lg:gap-12 md:gap-8 justify-center items-center pt-16">
-          <img src={upmLogo} alt="upm logo" className="lg:h-18 md:h-18 h-12 object-contain" />
-          <img
-            src="/PESKON2025_Logo.png"
-            alt="peskon logo"
-            className="lg:h-16 md:h-18 h-12 object-contain"
-          />
-          <img
-            src={mEventLogo}
-            alt="mevent logo"
-            className="lg:h-24 md:h-25 h-12 rounded-2xl"
-          />
-          <img
-            src={MPPUPMLogo}
-            alt="mpp upm logo"
-            className="lg:h-28 md:h-26 h-12"
-          />
-          <div></div>
-          <img
-            src={PayNetLogo}
-            alt="mpp upm logo"
-            className="lg:h-15 md:h-10 h-8"
-          />
-          <img
-            src={MahsariGroupLogo}
-            alt="mpp upm logo"
-            className="lg:h-28 md:h-22 h-8"
-          />
-        </div>
-        <h1 className="font-semibold text-2xl">Website Powered By</h1>
-        <div className="flex lg:gap-12 -mt-30 md:gap-8 justify-center items-center pt-16">
-          <img
-            src={SonetraLogo}
-            alt="upm logo"
-            className="lg:h-20 md:h-20 h-12"
-          />
+      {/* Static logos, responsive layout */}
+      <div className="pt-16">
+        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+          {partners.map((logo, i) => (
+            <div key={i} className="flex items-center justify-center">
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                className="h-10 md:h-14 lg:h-16 object-contain"
+              />
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Mobile Layout */}
-      <div className="md:hidden flex flex-col gap-10 items-center justify-center">
-        <div className="grid grid-cols-2 gap-y-10 gap-7 justify-items-center place-items-center mt-8 px-4">
-          <img src={upmLogo} alt="UPM logo" className="h-12" />
-          <img src="/PESKON2025_Logo.png" alt="peskon logo" className="h-12" />
-          <img src={mEventLogo} alt="mevent logo" className="h-18 rounded-2xl" />
-          <img src={MPPUPMLogo} alt="mpp upm logo" className="h-20" />
-          <img src={PayNetLogo} alt="paynet logo" className="h-10 object-contain" />
-          <img src={MahsariGroupLogo} alt="mahsari group logo" className="h-20" />
-        </div>
-        <h1 className="font-semibold text-lg md:text-2xl">Website Powered By</h1>
-        <img src={SonetraLogo} alt="sonetra logo" className="h-15 -mt-10" />
+      {/* Website Powered By */}
+      <div className="flex flex-col justify-center items-center gap-6 mt-16">
+        <h1 className="font-semibold text-lg md:text-2xl">
+          Website Powered By
+        </h1>
+        <img
+          src={SonetraLogo}
+          alt="Sonetra logo"
+          className="h-14 md:h-20 object-contain"
+        />
       </div>
     </div>
   );
