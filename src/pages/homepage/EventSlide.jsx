@@ -136,7 +136,7 @@ const EventSlide = ({ events = [] }) => {
               <img
                 src={event.poster_url}
                 alt={`Poster of ${event.title}`}
-                className="w-full max-h-[50vh] object-contain rounded-2xl shadow-2xl ring-1 ring-white/30"
+                className="w-fit max-h-[50vh] object-contain rounded-2xl shadow-2xl ring-1 ring-white/30"
                 loading="lazy"
               />
             </div>
